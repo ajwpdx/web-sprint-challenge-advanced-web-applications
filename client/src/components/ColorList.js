@@ -70,6 +70,7 @@ const ColorList = ({ colors, setColorList }) => {
             </span>
             <div
               className="color-box"
+              data-testid='color'
               style={{ backgroundColor: color.code.hex }}
             />
           </li>
