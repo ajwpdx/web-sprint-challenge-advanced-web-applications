@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useHistory} from 'react-router-dom'
 import { axiosWithAuth } from '../utils/axiosWithAuth'
 
 const initialLoginValues = {
@@ -7,6 +8,7 @@ const initialLoginValues = {
 }
 
 const Login = (props) => {
+  const history = useHistory()
   const [loginValues, setLoginValues] = useState(initialLoginValues)
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
@@ -15,16 +17,24 @@ const Login = (props) => {
     const value = e.target.value
     setLoginValues({...loginValues, [name]: value})
   }
-  
-  const login = e => {
 
+  const login = e => {
+    e.preventDefault()
+
+    axiosWithAuth()
+      .post('/api/login', loginValues)
+      .then( res => {
+        console.log(res)
+        history.push('/bubbles')
+      })
+      .catch(err =>  console.log(err))
   }
 
   return (
     
     <div className='login'>
 
-      <form >
+      <form onSubmit={login} >
         <h2>Log In</h2>
         <label>
           <input
